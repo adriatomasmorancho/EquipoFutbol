@@ -64,5 +64,43 @@ namespace EquipoFutbol
 
             return s;
         }
+
+
+        public void ListarEquipo(Equipo equipo, Equipo equipo2)
+        {
+            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+            string nombreEquipo = Console.ReadLine();
+
+            bool foundTeam = false;
+            while (!foundTeam)
+            {
+
+                if (equipo.Nombre == nombreEquipo)
+                {
+                    foreach (var item in equipo.Jugadores)
+                    {
+                        Console.WriteLine(item.ToString());
+
+                    }
+                    foundTeam = true;
+                }
+                else if (equipo2.Nombre == nombreEquipo)
+                {
+                    foreach (var item in equipo2.Jugadores)
+                    {
+                        Console.WriteLine(item.ToString());
+
+                    }
+                    foundTeam = true;
+                }
+                else
+                {
+                    Console.WriteLine("No existe ningun equipo con este nombre!");
+                    Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+                    nombreEquipo = Console.ReadLine();
+                }
+            }
+
+        }
     }
 }
