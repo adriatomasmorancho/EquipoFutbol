@@ -19,7 +19,8 @@ namespace EquipoFutbol
         int goles;
         int asistencias;
         int partidosJugados;
-        public Jugador(string nombre, ePosicion posicion, int dorsal, ePierna pierna, double sueldo, int goles, int asistencias, int partidosJugados) 
+        double probabilidadGol;
+        public Jugador(string nombre, ePosicion posicion, int dorsal, ePierna pierna, double sueldo, int goles, int asistencias, int partidosJugados, double probabilidadGol) 
         {
             this.nombre = nombre;
             this.posicion = posicion;
@@ -29,6 +30,8 @@ namespace EquipoFutbol
             this.goles = goles;
             this.asistencias = asistencias;
             this.partidosJugados = partidosJugados;
+
+            this.probabilidadGol = probabilidadGol;
         }
 
         public string Nombre { get => nombre; set => nombre = value; }
@@ -39,6 +42,8 @@ namespace EquipoFutbol
         public int PartidosJugados { get => partidosJugados; set => partidosJugados = value; }
         public ePosicion Posicion { get => posicion; set => posicion = value; }
         public ePierna Pierna { get => pierna; set => pierna = value; }
+
+        public double ProbabilidadGol { get => probabilidadGol; set => probabilidadGol = value; }
 
         public override string ToString()
         {

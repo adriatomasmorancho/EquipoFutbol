@@ -45,6 +45,8 @@ namespace EquipoFutbol
                         case 3:
                             ListarEquipo();
                             break;
+                        case 4:
+
                         case 0:
                             salir = true;
                             Console.WriteLine("El programa ha finalizado.");
@@ -89,25 +91,36 @@ namespace EquipoFutbol
             string pierna = Console.ReadLine();
             Console.WriteLine("Cuanto cobrara por temporada tu nuevo jugador?");
             double sueldo = double.Parse(Console.ReadLine());
-            Jugador jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo, 0, 0, 0);
+            Console.WriteLine("Probabilidad de gol?");
+            double probabilidadGol = double.Parse(Console.ReadLine());
+
+            Jugador jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo,0,0,0, probabilidadGol);
             Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
             string nombreEquipo = Console.ReadLine();
 
-            if (equipo.Nombre == nombreEquipo)
+            bool foundTeam = false;
+            while (!foundTeam)
             {
-                equipo.Jugadores.Add(jugador);
-                equipo.NumeroJugadores += 1;
-                equipo.Presupuesto -= sueldo;
-            }
-            else if (equipo2.Nombre == nombreEquipo)
-            {
-                equipo2.Jugadores.Add(jugador);
-                equipo2.NumeroJugadores += 1;
-                equipo2.Presupuesto -= sueldo;
-            }
-            else
-            {
-                Console.WriteLine("No existe ningun equipo con este nombre!");
+              if (equipo.Nombre == nombreEquipo)
+              {
+                  equipo.Jugadores.Add(jugador);
+                  equipo.NumeroJugadores += 1;
+                  equipo.Presupuesto -= sueldo;
+                  foundTeam = true;
+              }
+              else if (equipo2.Nombre == nombreEquipo)
+              {
+                  equipo2.Jugadores.Add(jugador);
+                  equipo2.NumeroJugadores += 1;
+                  equipo2.Presupuesto -= sueldo;
+                  foundTeam = true;
+              }
+              else
+              {
+                  Console.WriteLine("No existe ningun equipo con este nombre!");
+                  Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+                  nombreEquipo = Console.ReadLine();
+              }
             }
             
         }
@@ -141,5 +154,32 @@ namespace EquipoFutbol
             
         }
 
+        // returns the score of the match
+        static Tuple<int, int> JugarPartido(Equipo equipoLocal, Equipo equipoVisitante)
+        {
+            int golesLocal = 0;
+            int golesVisitante = 0;
+
+            Random random = new Random();
+
+            int ocasionesLocal = random.Next(10); // máximo 10 ocasiones
+            int ocasionesVisitante = random.Next(10);
+
+            for (int i = 0; i < ocasionesLocal; ++i)
+            {
+            }
+
+            return Tuple.Create(golesLocal, golesVisitante);
+        }
+
+
+        // returns wether a shoot ends or not in goal
+        static bool ShootEndsInGoal(Jugador shooter, Portero portero)
+        {
+            Random random = new Random();
+            int porcentajeGol = (int)(shooter.ProbabilidadGol*100);
+            int porcentajeSalvada = (int)(portero.ProbabilidadParada*100);
+            return random.Next(porcentajeGol) > random.Next(porcentajeSalvada);
+        }
     }
 }
