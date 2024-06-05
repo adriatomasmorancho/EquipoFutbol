@@ -26,6 +26,7 @@ namespace EquipoFutbol
                 Console.WriteLine("1. Crear los dos equipos");
                 Console.WriteLine("2. Altas del equipo");
                 Console.WriteLine("3. Listar equipo");
+                Console.WriteLine("4. Jugar partido");
                 Console.WriteLine("0. Salir");
                 Console.WriteLine("Selecciona una opción:");
 
@@ -46,7 +47,8 @@ namespace EquipoFutbol
                             ListarEquipo();
                             break;
                         case 4:
-
+                            JugarPartido();
+                            break;
                         case 0:
                             salir = true;
                             Console.WriteLine("El programa ha finalizado.");
