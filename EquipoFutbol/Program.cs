@@ -48,7 +48,10 @@ namespace EquipoFutbol
                             ListarEquipo();
                             break;
                         case 4:
-                            JugarPartido();
+                            ChooseStartingLineUp(equipo);
+                            ChooseStartingLineUp(equipo2);
+                            Partido partido = new Partido(equipo, equipo2, JugarPartido(equipo, equipo2));
+                            Console.WriteLine(partido.ToString());
                             break;
                         case 0:
                             salir = true;
@@ -188,7 +191,7 @@ namespace EquipoFutbol
             
         }
 
-        public void ChooseStartingLineUp(Equipo team)
+        static void ChooseStartingLineUp(Equipo team)
         {
             int titulares = 0;
             team.PorteroTitular = null; // we erease the titular goalkeeper
