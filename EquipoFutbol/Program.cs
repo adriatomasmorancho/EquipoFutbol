@@ -123,7 +123,20 @@ namespace EquipoFutbol
             double sueldo = double.Parse(Console.ReadLine());
             Console.WriteLine("Probabilidad de gol?");
             double probabilidadGol = double.Parse(Console.ReadLine());
-            Jugador jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo,0,0,0, probabilidadGol);
+
+            Jugador jugador = null;
+            Portero portero = null;
+            
+            if (posicion != Jugador.ePosicion.Portero)
+                jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo, 0, 0, 0, probabilidadGol);
+            
+            else
+            {
+                Console.WriteLine("Probabilidad de parada?");
+                double probabilidadParada = double.Parse(Console.ReadLine());
+                portero = new Portero(nombre, posicion, dorsal, pierna, sueldo, 0, 0, 0, probabilidadGol, probabilidadParada);
+            }
+
             Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
             string nombreEquipo = Console.ReadLine();
 
@@ -132,14 +145,14 @@ namespace EquipoFutbol
             {
               if (equipo.Nombre == nombreEquipo)
               {
-                  equipo.Jugadores.Add(jugador);
+                  equipo.Jugadores.Add(jugador ?? portero);
                   equipo.NumeroJugadores += 1;
                   equipo.Presupuesto -= sueldo;
                   foundTeam = true;
               }
               else if (equipo2.Nombre == nombreEquipo)
               {
-                  equipo2.Jugadores.Add(jugador);
+                  equipo2.Jugadores.Add(jugador ?? portero);
                   equipo2.NumeroJugadores += 1;
                   equipo2.Presupuesto -= sueldo;
                   foundTeam = true;
