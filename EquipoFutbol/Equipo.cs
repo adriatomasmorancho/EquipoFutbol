@@ -16,7 +16,7 @@ namespace EquipoFutbol
         List<Jugador> jugadores;
         Portero porteroTitular;
 
-        public Equipo(string nombre, double presupuesto, int numeroJugadores, List<Jugador> jugadores) 
+        public Equipo(string nombre, double presupuesto, int numeroJugadores, List<Jugador> jugadores)
         {
             this.nombre = nombre;
             this.presupuesto = presupuesto;
@@ -31,7 +31,9 @@ namespace EquipoFutbol
         public List<Jugador> Jugadores { get => jugadores; set => jugadores = value; }
         public Portero PorteroTitular { get => porteroTitular; set => porteroTitular = value; }
 
-        
+
+
+
 
         // cambiamos un titular por un jugador que aún no esta jugando
         public string ChangePlayers(Jugador substituto, Jugador titular)
@@ -39,14 +41,14 @@ namespace EquipoFutbol
             string s = "";
             if (substituto.JugandoPartido)
                 s = $"El jugador {substituto.Nombre} ya esta en el terreno de juego";
-            
+
             else if (titular == null)
             {
                 substituto.JugandoPartido = true;
                 if (substituto.Posicion == Jugador.ePosicion.Portero)
                     porteroTitular = (Portero)substituto;
             }
-               
+
             else if (!titular.JugandoPartido)
                 s = $"El jugador {titular.Nombre} ya esta en el terreno de juego";
 
@@ -65,42 +67,83 @@ namespace EquipoFutbol
             return s;
         }
 
-
-        public void ListarEquipo(Equipo equipo, Equipo equipo2)
+        public void AltaJugador()
         {
-            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
-            string nombreEquipo = Console.ReadLine();
-
-            bool foundTeam = false;
-            while (!foundTeam)
+            Console.WriteLine("Cuál es el nombre de tu nuevo jugador?");
+            string nombre = Console.ReadLine();
+            Jugador.ePosicion posicion;
+            while (true)
             {
-
-                if (equipo.Nombre == nombreEquipo)
+                Console.WriteLine("En qué posición juega tu nuevo jugador? (Delantero, Mediocentro, Defensa, Portero)");
+                string posicionStr = Console.ReadLine();
+                if (Enum.TryParse(posicionStr, true, out posicion))
                 {
-                    foreach (var item in equipo.Jugadores)
-                    {
-                        Console.WriteLine(item.ToString());
-
-                    }
-                    foundTeam = true;
-                }
-                else if (equipo2.Nombre == nombreEquipo)
-                {
-                    foreach (var item in equipo2.Jugadores)
-                    {
-                        Console.WriteLine(item.ToString());
-
-                    }
-                    foundTeam = true;
+                    break;
                 }
                 else
                 {
-                    Console.WriteLine("No existe ningun equipo con este nombre!");
-                    Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
-                    nombreEquipo = Console.ReadLine();
+                    Console.WriteLine("Posición no válida. Por favor, introduce una posición válida.");
                 }
             }
+            Console.WriteLine("Que dorsal lleva tu nuevo jugador?");
+            int dorsal = int.Parse(Console.ReadLine());
+            Jugador.ePierna pierna;
+            while (true)
+            {
+                Console.WriteLine("Cuál es la pierna buena de tu nuevo jugador? (Izquierda, Derecha, Ambidiestro)");
+                string piernaStr = Console.ReadLine();
+                if (Enum.TryParse(piernaStr, true, out pierna))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Pierna no válida. Por favor, introduce una pierna válida.");
+                }
+            }
+            Console.WriteLine("Cuanto cobrara por temporada tu nuevo jugador?");
+            double sueldo = double.Parse(Console.ReadLine());
+            Console.WriteLine("Probabilidad de gol?");
+            double probabilidadGol = double.Parse(Console.ReadLine());
+
+            Jugador jugador = null;
+            Portero portero = null;
+
+            if (posicion != Jugador.ePosicion.Portero)
+            {
+                jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo, 0, 0, 0, probabilidadGol);
+                this.Jugadores.Add(jugador);
+            }
+            else
+            {
+                Console.WriteLine("Probabilidad de parada?");
+                double probabilidadParada = double.Parse(Console.ReadLine());
+                portero = new Portero(nombre, posicion, dorsal, pierna, sueldo, 0, 0, 0, probabilidadGol, probabilidadParada);
+                this.Jugadores.Add(portero);
+            }
+
+
+
+        }
+
+    
+
+        public void ListarEquipo()
+        {
+
+            if (Jugadores.Count == 0)
+            {
+                Console.WriteLine("No hay jugadores en el equipo.");
+                return;
+            }
+
+            foreach (var jugador in Jugadores)
+            {
+                Console.WriteLine(jugador.ToString());
+            }
+            Console.WriteLine("Fin del listado de jugadores.");
 
         }
     }
 }
+

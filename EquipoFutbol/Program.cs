@@ -9,11 +9,11 @@ namespace EquipoFutbol
 {
     internal class Program
     {
-        static Equipo equipo;
-        static Equipo equipo2;
+        static Liga liga;
         static int sizeTeam = 2;
         static void Main(string[] args)
         {
+            liga = new Liga();
             Menu();
             Console.ReadKey();
         }
@@ -40,19 +40,57 @@ namespace EquipoFutbol
                     switch (opcion)
                     {
                         case 1:
-                            CrearEquipo();
+                            liga.CrearEquipo();
                             break;
                         case 2:
-                            AltaJugador();
+                            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+                            string nombreEquipo = Console.ReadLine();
+
+                            bool foundTeam = false;
+                            while (!foundTeam)
+                            {
+                                Equipo equipo = liga.Equipos.Find(m => m.Nombre.Equals(nombreEquipo, StringComparison.Ordinal));
+                                if (equipo != null)
+                                {
+                                    equipo.AltaJugador();
+                                    foundTeam = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No existe ningún equipo con este nombre.");
+                                    Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador:");
+                                    nombreEquipo = Console.ReadLine();
+                                }
+                            }
                             break;
                         case 3:
-                            equipo.ListarEquipo(equipo, equipo2);
+                            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+                            nombreEquipo = Console.ReadLine();
+
+                            foundTeam = false;
+                            while (!foundTeam)
+                            {
+                                Equipo equipo = liga.Equipos.Find(m => m.Nombre.Equals(nombreEquipo, StringComparison.Ordinal));
+                                if (equipo != null)
+                                {
+                                    equipo.ListarEquipo();
+                                    foundTeam = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No existe ningún equipo con este nombre!");
+                                    Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador:");
+                                    nombreEquipo = Console.ReadLine();
+                                }
+                            }
                             break;
                         case 4:
-                            ChooseStartingLineUp(equipo);
-                            ChooseStartingLineUp(equipo2);
-                            Partido partido = new Partido(equipo, equipo2, JugarPartido(equipo, equipo2));
-                            Console.WriteLine(partido.ToString());
+                            foreach (var item in liga.Equipos)
+                            {
+                                ChooseStartingLineUp(item);
+                            }
+                           Partido partido = new Partido(liga.Equipos[0], liga.Equipos[1], JugarPartido(liga.Equipos[0], liga.Equipos[1]));
+                           Console.WriteLine(partido.ToString());
                             break;
                         case 0:
                             salir = true;
@@ -71,102 +109,7 @@ namespace EquipoFutbol
             }
         }
 
-
-        static void CrearEquipo()
-        {
-            Console.WriteLine("Cuál es el nombre de tu equipo?");
-            string nombre = Console.ReadLine();
-            Console.WriteLine("Cuál es el presupuesto de tu equipo?");
-            double presupuesto = Double.Parse(Console.ReadLine());
-            equipo = new Equipo(nombre, presupuesto, 0, null);
-            Console.WriteLine("Cuál es el nombre del segundo equipo?");
-            string nombre2 = Console.ReadLine();
-            Console.WriteLine("Cuál es el presupuesto del segundo equipo?");
-            double presupuesto2 = Double.Parse(Console.ReadLine());
-            equipo2 = new Equipo(nombre2, presupuesto2, 0, null);
-
-        }
-        static void AltaJugador()
-        {
-            Console.WriteLine("Cuál es el nombre de tu nuevo jugador?");
-            string nombre = Console.ReadLine();
-            Jugador.ePosicion posicion;
-            while (true)
-            {
-                Console.WriteLine("En qué posición juega tu nuevo jugador? (Delantero, Mediocentro, Defensa, Portero)");
-                string posicionStr = Console.ReadLine();
-                if (Enum.TryParse(posicionStr, true, out posicion))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Posición no válida. Por favor, introduce una posición válida.");
-                }
-            }
-            Console.WriteLine("Que dorsal lleva tu nuevo jugador?");
-            int dorsal = int.Parse(Console.ReadLine());
-            Jugador.ePierna pierna;
-            while (true)
-            {
-                Console.WriteLine("Cuál es la pierna buena de tu nuevo jugador? (Izquierda, Derecha, Ambidiestro)");
-                string piernaStr = Console.ReadLine();
-                if (Enum.TryParse(piernaStr, true, out pierna))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Pierna no válida. Por favor, introduce una pierna válida.");
-                }
-            }
-            Console.WriteLine("Cuanto cobrara por temporada tu nuevo jugador?");
-            double sueldo = double.Parse(Console.ReadLine());
-            Console.WriteLine("Probabilidad de gol?");
-            double probabilidadGol = double.Parse(Console.ReadLine());
-
-            Jugador jugador = null;
-            Portero portero = null;
-            
-            if (posicion != Jugador.ePosicion.Portero)
-                jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo, 0, 0, 0, probabilidadGol);
-            
-            else
-            {
-                Console.WriteLine("Probabilidad de parada?");
-                double probabilidadParada = double.Parse(Console.ReadLine());
-                portero = new Portero(nombre, posicion, dorsal, pierna, sueldo, 0, 0, 0, probabilidadGol, probabilidadParada);
-            }
-
-            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
-            string nombreEquipo = Console.ReadLine();
-
-            bool foundTeam = false;
-            while (!foundTeam)
-            {
-              if (equipo.Nombre == nombreEquipo)
-              {
-                  equipo.Jugadores.Add(jugador ?? portero);
-                  equipo.NumeroJugadores += 1;
-                  equipo.Presupuesto -= sueldo;
-                  foundTeam = true;
-              }
-              else if (equipo2.Nombre == nombreEquipo)
-              {
-                  equipo2.Jugadores.Add(jugador ?? portero);
-                  equipo2.NumeroJugadores += 1;
-                  equipo2.Presupuesto -= sueldo;
-                  foundTeam = true;
-              }
-              else
-              {
-                  Console.WriteLine("No existe ningun equipo con este nombre!");
-                  Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
-                  nombreEquipo = Console.ReadLine();
-              }
-            }
-            
-        }
+       
 
         
 
