@@ -9,6 +9,7 @@ namespace EquipoFutbol
     internal class Program
     {
         static Equipo equipo;
+        static Equipo equipo2;
         static void Main(string[] args)
         {
             Menu();
@@ -22,7 +23,7 @@ namespace EquipoFutbol
             while (!salir)
             {
                 Console.WriteLine("Menu Equipo");
-                Console.WriteLine("1. Crear equipo");
+                Console.WriteLine("1. Crear los dos equipos");
                 Console.WriteLine("2. Altas del equipo");
                 Console.WriteLine("3. Listar equipo");
                 Console.WriteLine("0. Salir");
@@ -69,6 +70,11 @@ namespace EquipoFutbol
             Console.WriteLine("Cuál es el presupuesto de tu equipo?");
             double presupuesto = Double.Parse(Console.ReadLine());
             equipo = new Equipo(nombre, presupuesto, 0, null);
+            Console.WriteLine("Cuál es el nombre del segundo equipo?");
+            string nombre2 = Console.ReadLine();
+            Console.WriteLine("Cuál es el presupuesto del segundo equipo?");
+            double presupuesto2 = Double.Parse(Console.ReadLine());
+            equipo2 = new Equipo(nombre2, presupuesto2, 0, null);
 
         }
         static void AltaJugador()
@@ -83,19 +89,56 @@ namespace EquipoFutbol
             string pierna = Console.ReadLine();
             Console.WriteLine("Cuanto cobrara por temporada tu nuevo jugador?");
             double sueldo = double.Parse(Console.ReadLine());
-            Jugador jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo,0,0,0);
-            equipo.Jugadores.Add(jugador);
-            equipo.NumeroJugadores += 1;
-            equipo.Presupuesto -= sueldo;
+            Jugador jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo, 0, 0, 0);
+            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+            string nombreEquipo = Console.ReadLine();
+
+            if (equipo.Nombre == nombreEquipo)
+            {
+                equipo.Jugadores.Add(jugador);
+                equipo.NumeroJugadores += 1;
+                equipo.Presupuesto -= sueldo;
+            }
+            else if (equipo2.Nombre == nombreEquipo)
+            {
+                equipo2.Jugadores.Add(jugador);
+                equipo2.NumeroJugadores += 1;
+                equipo2.Presupuesto -= sueldo;
+            }
+            else
+            {
+                Console.WriteLine("No existe ningun equipo con este nombre!");
+            }
+            
         }
 
         static void ListarEquipo()
         {
-            foreach (var item in equipo.Jugadores)
-            {
-                Console.WriteLine(item.ToString());
+            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+            string nombreEquipo = Console.ReadLine();
 
+            if (equipo.Nombre == nombreEquipo)
+            {
+                foreach (var item in equipo.Jugadores)
+                {
+                    Console.WriteLine(item.ToString());
+
+                }
             }
+            else if (equipo2.Nombre == nombreEquipo)
+            {
+                foreach (var item in equipo2.Jugadores)
+                {
+                    Console.WriteLine(item.ToString());
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("No existe ningun equipo con este nombre!");
+            }
+
+            
         }
 
     }

@@ -8,15 +8,18 @@ namespace EquipoFutbol
 {
     public class Jugador
     {
+        public enum ePierna { Izquierda, Derecha, Ambidiestro };
+        public enum ePosicion { Delantero, Mediocentro, Defensa, Portero };
+
         string nombre;
-        string posicion;
+        ePosicion posicion;
         int dorsal;
-        string pierna;
+        ePierna pierna;
         double sueldo;
         int goles;
         int asistencias;
         int partidosJugados;
-        public Jugador(string nombre, string posicion, int dorsal, string pierna, double sueldo, int goles, int asistencias, int partidosJugados) 
+        public Jugador(string nombre, ePosicion posicion, int dorsal, ePierna pierna, double sueldo, int goles, int asistencias, int partidosJugados) 
         {
             this.nombre = nombre;
             this.posicion = posicion;
@@ -29,13 +32,13 @@ namespace EquipoFutbol
         }
 
         public string Nombre { get => nombre; set => nombre = value; }
-        public string Posicion { get => posicion; set => posicion = value; }
         public int Dorsal { get => dorsal; set => dorsal = value; }
-        public string Pierna { get => pierna; set => pierna = value; }
         public double Sueldo { get => sueldo; set => sueldo = value; }
         public int Goles { get => goles; set => goles = value; }
         public int Asistencias { get => asistencias; set => asistencias = value; }
         public int PartidosJugados { get => partidosJugados; set => partidosJugados = value; }
+        public ePosicion Posicion { get => posicion; set => posicion = value; }
+        public ePierna Pierna { get => pierna; set => pierna = value; }
 
         public override string ToString()
         {
