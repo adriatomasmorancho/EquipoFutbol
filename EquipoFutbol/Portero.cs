@@ -10,7 +10,7 @@ namespace EquipoFutbol
     {
         public double ProbabilidadParada;
 
-        public Portero(string nombre, string posicion, int dorsal, string pierna, double sueldo, int goles, int asistencias, int partidosJugados, double probabilidadGol, double probabilidadParada) : base(nombre, posicion, dorsal, pierna, sueldo, goles, asistencias, partidosJugados, probabilidadGol)
+        public Portero(string nombre, ePosicion posicion, int dorsal, ePierna pierna, double sueldo, int goles, int asistencias, int partidosJugados, double probabilidadGol, double probabilidadParada) : base(nombre, posicion, dorsal, pierna, sueldo, goles, asistencias, partidosJugados, probabilidadGol)
         {
             ProbabilidadParada = probabilidadParada;
         }

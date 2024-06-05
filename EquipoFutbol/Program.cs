@@ -83,17 +83,40 @@ namespace EquipoFutbol
         {
             Console.WriteLine("Cuál es el nombre de tu nuevo jugador?");
             string nombre = Console.ReadLine();
-            Console.WriteLine("En que posición juega tu nuevo jugador?");
-            string posicion = Console.ReadLine();
+            Jugador.ePosicion posicion;
+            while (true)
+            {
+                Console.WriteLine("En qué posición juega tu nuevo jugador? (Delantero, Mediocentro, Defensa, Portero)");
+                string posicionStr = Console.ReadLine();
+                if (Enum.TryParse(posicionStr, true, out posicion))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Posición no válida. Por favor, introduce una posición válida.");
+                }
+            }
             Console.WriteLine("Que dorsal lleva tu nuevo jugador?");
             int dorsal = int.Parse(Console.ReadLine());
-            Console.WriteLine("Cual es la pierna buena de tu nuevo jugador?");
-            string pierna = Console.ReadLine();
+            Jugador.ePierna pierna;
+            while (true)
+            {
+                Console.WriteLine("Cuál es la pierna buena de tu nuevo jugador? (Izquierda, Derecha, Ambidiestro)");
+                string piernaStr = Console.ReadLine();
+                if (Enum.TryParse(piernaStr, true, out pierna))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Pierna no válida. Por favor, introduce una pierna válida.");
+                }
+            }
             Console.WriteLine("Cuanto cobrara por temporada tu nuevo jugador?");
             double sueldo = double.Parse(Console.ReadLine());
             Console.WriteLine("Probabilidad de gol?");
             double probabilidadGol = double.Parse(Console.ReadLine());
-
             Jugador jugador = new Jugador(nombre, posicion, dorsal, pierna, sueldo,0,0,0, probabilidadGol);
             Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
             string nombreEquipo = Console.ReadLine();
@@ -130,27 +153,35 @@ namespace EquipoFutbol
             Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
             string nombreEquipo = Console.ReadLine();
 
-            if (equipo.Nombre == nombreEquipo)
+            bool foundTeam = false;
+            while (!foundTeam)
             {
-                foreach (var item in equipo.Jugadores)
-                {
-                    Console.WriteLine(item.ToString());
 
+                if (equipo.Nombre == nombreEquipo)
+                {
+                    foreach (var item in equipo.Jugadores)
+                    {
+                        Console.WriteLine(item.ToString());
+
+                    }
+                    foundTeam = true;
+                }
+                else if (equipo2.Nombre == nombreEquipo)
+                {
+                    foreach (var item in equipo2.Jugadores)
+                    {
+                        Console.WriteLine(item.ToString());
+
+                    }
+                    foundTeam = true;
+                }
+                else
+                {
+                    Console.WriteLine("No existe ningun equipo con este nombre!");
+                    Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+                    nombreEquipo = Console.ReadLine();
                 }
             }
-            else if (equipo2.Nombre == nombreEquipo)
-            {
-                foreach (var item in equipo2.Jugadores)
-                {
-                    Console.WriteLine(item.ToString());
-
-                }
-            }
-            else
-            {
-                Console.WriteLine("No existe ningun equipo con este nombre!");
-            }
-
             
         }
 
