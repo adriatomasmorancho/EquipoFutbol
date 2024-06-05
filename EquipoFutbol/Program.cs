@@ -94,6 +94,7 @@ namespace EquipoFutbol
             foreach (var item in equipo.Jugadores)
             {
                 Console.WriteLine(item.ToString());
+
             }
         }
 
