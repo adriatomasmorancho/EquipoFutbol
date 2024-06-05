@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -187,6 +188,52 @@ namespace EquipoFutbol
             
         }
 
+        public void ChooseStartingLineUp(Equipo team)
+        {
+            int titulares = 0;
+            team.PorteroTitular = null; // we erease the titular goalkeeper
+            
+            while (titulares < 5)
+            {
+                Console.WriteLine("Escoje un dorsal para que salga de titular: ");
+
+                if (int.TryParse(Console.ReadLine(), out int dorsal))
+                {
+                    int indice = team.Jugadores.FindIndex(p => p.Dorsal == dorsal);
+                    if (indice < 0)
+                        Console.WriteLine($"El dorsal {dorsal} no pertenece al equipo {team.Nombre}");
+
+                    else if (team.Jugadores[indice].Posicion == Jugador.ePosicion.Portero)
+                    {
+                        if (team.PorteroTitular != null)
+                            Console.WriteLine("El portero titular ya esta asignado y solo puede haber un portero titular");
+
+                        else
+                        {
+                            string control = team.ChangePlayers(team.Jugadores[indice], null);
+                            if (control != "")
+                                Console.WriteLine(control);
+                            else
+                                ++titulares;
+
+                        }
+                    }
+
+                    else if (titulares == 4 && team.PorteroTitular == null)
+                        Console.WriteLine("Necesitas un portero! Introduce el dorsal de un portero");
+
+                    else
+                    {
+                        string control = team.ChangePlayers(team.Jugadores[indice], null);
+                        if (control != "")
+                            Console.WriteLine(control);
+                        else
+                            ++titulares;
+                    }
+                }
+            }
+        }
+
         // returns the score of the match
         static Tuple<int, int> JugarPartido(Equipo equipoLocal, Equipo equipoVisitante)
         {
@@ -198,8 +245,40 @@ namespace EquipoFutbol
             int ocasionesLocal = random.Next(10); // máximo 10 ocasiones
             int ocasionesVisitante = random.Next(10);
 
+            List<Jugador> jugadoresLocal = new List<Jugador>();
+            foreach (Jugador player in equipoLocal.Jugadores)
+            {
+                if (player.JugandoPartido)
+                    jugadoresLocal.Add(player);
+            }
+
+            List<Jugador> jugadoresVisitante = new List<Jugador>();
+            foreach (Jugador player in equipoVisitante.Jugadores)
+            {
+                if (player.JugandoPartido)
+                    jugadoresVisitante.Add(player);
+            }
+
             for (int i = 0; i < ocasionesLocal; ++i)
             {
+                Jugador shooter = jugadoresLocal[random.Next(jugadoresLocal.Count() - 1)];
+
+                if (ShootEndsInGoal(shooter, equipoVisitante.PorteroTitular))
+                {
+                    ++golesLocal;
+                    ++shooter.Goles;
+                }
+            }
+
+            for (int i = 0; i < ocasionesVisitante; ++i)
+            {
+                Jugador shooter = jugadoresVisitante[random.Next(jugadoresVisitante.Count() - 1)];
+
+                if (ShootEndsInGoal(shooter, equipoLocal.PorteroTitular))
+                {
+                    ++golesVisitante;
+                    ++shooter.Goles;
+                }
             }
 
             return Tuple.Create(golesLocal, golesVisitante);
