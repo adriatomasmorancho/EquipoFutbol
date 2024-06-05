@@ -144,8 +144,6 @@ namespace EquipoFutbol
             Console.WriteLine("Fin del listado de jugadores.");
 
         }
-           
-
     }
 }
 

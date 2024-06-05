@@ -85,10 +85,12 @@ namespace EquipoFutbol
                             }
                             break;
                         case 4:
-                           // ChooseStartingLineUp(equipo);
-                           // ChooseStartingLineUp(equipo2);
-                           // Partido partido = new Partido(equipo, equipo2, JugarPartido(equipo, equipo2));
-                           // Console.WriteLine(partido.ToString());
+                            foreach (var item in liga.Equipos)
+                            {
+                                ChooseStartingLineUp(item);
+                            }
+                           Partido partido = new Partido(liga.Equipos[0], liga.Equipos[1], JugarPartido(liga.Equipos[0], liga.Equipos[1]));
+                           Console.WriteLine(partido.ToString());
                             break;
                         case 0:
                             salir = true;
