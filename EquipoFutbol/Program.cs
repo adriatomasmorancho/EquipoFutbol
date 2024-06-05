@@ -11,6 +11,7 @@ namespace EquipoFutbol
     {
         static Equipo equipo;
         static Equipo equipo2;
+        static int sizeTeam = 2;
         static void Main(string[] args)
         {
             Menu();
@@ -45,7 +46,7 @@ namespace EquipoFutbol
                             AltaJugador();
                             break;
                         case 3:
-                            ListarEquipo();
+                            equipo.ListarEquipo(equipo, equipo2);
                             break;
                         case 4:
                             ChooseStartingLineUp(equipo);
@@ -167,49 +168,14 @@ namespace EquipoFutbol
             
         }
 
-        static void ListarEquipo()
-        {
-            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
-            string nombreEquipo = Console.ReadLine();
-
-            bool foundTeam = false;
-            while (!foundTeam)
-            {
-
-                if (equipo.Nombre == nombreEquipo)
-                {
-                    foreach (var item in equipo.Jugadores)
-                    {
-                        Console.WriteLine(item.ToString());
-
-                    }
-                    foundTeam = true;
-                }
-                else if (equipo2.Nombre == nombreEquipo)
-                {
-                    foreach (var item in equipo2.Jugadores)
-                    {
-                        Console.WriteLine(item.ToString());
-
-                    }
-                    foundTeam = true;
-                }
-                else
-                {
-                    Console.WriteLine("No existe ningun equipo con este nombre!");
-                    Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
-                    nombreEquipo = Console.ReadLine();
-                }
-            }
-            
-        }
+        
 
         static void ChooseStartingLineUp(Equipo team)
         {
             int titulares = 0;
             team.PorteroTitular = null; // we erease the titular goalkeeper
             
-            while (titulares < 5)
+            while (titulares < sizeTeam)
             {
                 Console.WriteLine("Escoje un dorsal para que salga de titular: ");
 
@@ -235,7 +201,7 @@ namespace EquipoFutbol
                         }
                     }
 
-                    else if (titulares == 4 && team.PorteroTitular == null)
+                    else if (titulares == sizeTeam - 1 && team.PorteroTitular == null)
                         Console.WriteLine("Necesitas un portero! Introduce el dorsal de un portero");
 
                     else
@@ -283,7 +249,10 @@ namespace EquipoFutbol
                 {
                     ++golesLocal;
                     ++shooter.Goles;
+                    Console.WriteLine($"Gol de {shooter.Nombre}");
                 }
+                else
+                    Console.WriteLine($"Oportunidad fallada por {shooter.Nombre}");
             }
 
             for (int i = 0; i < ocasionesVisitante; ++i)
@@ -294,7 +263,10 @@ namespace EquipoFutbol
                 {
                     ++golesVisitante;
                     ++shooter.Goles;
+                    Console.WriteLine($"Gol de {shooter.Nombre}");
                 }
+                else
+                    Console.WriteLine($"Oportunidad fallada por {shooter.Nombre}");
             }
 
             return Tuple.Create(golesLocal, golesVisitante);
