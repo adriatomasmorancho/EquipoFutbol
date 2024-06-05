@@ -12,7 +12,7 @@ namespace EquipoFutbol
         string nombre;
         double presupuesto;
         int numeroJugadores;
-        List<Jugador> jugadores = null;
+        List<Jugador> jugadores;
 
         public Equipo(string nombre, double presupuesto, int numeroJugadores, List<Jugador> jugadores) 
         {
