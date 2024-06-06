@@ -52,8 +52,8 @@ namespace EquipoFutbol
             else if (!titular.JugandoPartido)
                 s = $"El jugador {titular.Nombre} ya esta en el terreno de juego";
 
-            else if (substituto.Posicion == titular.Posicion)
-                s = $"El jugador substituido y el substituto deben ser del mismo tipo";
+            else if (substituto.Posicion != titular.Posicion)
+                s = $"El jugador substituido y el titular deben ser del mismo tipo";
 
             else
             {

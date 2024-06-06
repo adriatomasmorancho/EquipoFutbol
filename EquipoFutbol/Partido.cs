@@ -10,8 +10,8 @@ namespace EquipoFutbol
     {
         Equipo equipo;
         Equipo equipo2;
-        Tuple<int, int> marcador;
-        public Partido(Equipo equipo, Equipo equipo2, Tuple<int, int> marcador) 
+        (int, int) marcador;
+        public Partido(Equipo equipo, Equipo equipo2, (int, int) marcador) 
         { 
             this.equipo = equipo;
             this.equipo2 = equipo2;
@@ -20,7 +20,7 @@ namespace EquipoFutbol
 
         public Equipo Equipo { get => equipo; set => equipo = value; }
         public Equipo Equipo2 { get => equipo2; set => equipo2 = value; }
-        public Tuple<int, int> Marcador { get => marcador; set => marcador = value; }
+        public (int, int) Marcador { get => marcador; set => marcador = value; }
 
         public override string ToString()
         {

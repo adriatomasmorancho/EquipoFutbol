@@ -127,7 +127,6 @@ namespace EquipoFutbol
                     int indice = team.Jugadores.FindIndex(p => p.Dorsal == dorsal);
                     if (indice < 0)
                         Console.WriteLine($"El dorsal {dorsal} no pertenece al equipo {team.Nombre}");
-
                     else if (team.Jugadores[indice].Posicion == Jugador.ePosicion.Portero)
                     {
                         if (team.PorteroTitular != null)
@@ -160,7 +159,7 @@ namespace EquipoFutbol
         }
 
         // returns the score of the match
-        static Tuple<int, int> JugarPartido(Equipo equipoLocal, Equipo equipoVisitante)
+        static (int, int) JugarPartido(Equipo equipoLocal, Equipo equipoVisitante)
         {
             int golesLocal = 0;
             int golesVisitante = 0;
@@ -212,7 +211,7 @@ namespace EquipoFutbol
                     Console.WriteLine($"Oportunidad fallada por {shooter.Nombre}");
             }
 
-            return Tuple.Create(golesLocal, golesVisitante);
+            return (golesLocal, golesVisitante);
         }
 
 
