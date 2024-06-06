@@ -64,7 +64,7 @@ namespace EquipoFutbol
                             }
                             break;
                         case 3:
-                            Console.WriteLine("Introduce el nombre del equipo para el que quieres el nuevo jugador?");
+                            Console.WriteLine("Introduce el nombre del equipo que quieres listar sus jugadores ");
                             nombreEquipo = Console.ReadLine();
 
                             foundTeam = false;
